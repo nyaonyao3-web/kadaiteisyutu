@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>こころと体調の見える化Web</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="phone-frame">
+      <nav class="demo-nav" aria-label="画面切り替え">
+        <button type="button" class="demo-nav__btn is-active" data-screen-target="screen-top">トップ</button>
+        <button type="button" class="demo-nav__btn" data-screen-target="screen-user">利用者</button>
+        <button type="button" class="demo-nav__btn" data-screen-target="screen-staff">職員</button>
+      </nav>
+
+      <section id="screen-top" class="screen is-active">
+        <header class="app-header">
+          <span class="header-right-placeholder"></span>
+          <h1 class="app-title">こころと体調の見える化Web</h1>
+          <span class="header-right-placeholder"></span>
+        </header>
+        <main class="app-main">
+          <section class="card">
+            <span class="badge">AI支援デモ</span>
+            <h2 class="hero-title">毎日の記録を、見える化して支援につなげる</h2>
+            <p class="hero-text">利用者がスマホでその日の体調や生活を記録し、職員が週単位で確認・コメントできるデモ画面です。</p>
+            <div class="stack-buttons">
+              <button type="button" class="btn btn-primary btn-block" data-screen-target="screen-user">利用者として始める</button>
+              <button type="button" class="btn btn-secondary btn-block" data-screen-target="screen-staff">職員として確認する</button>
+            </div>
+          </section>
+          <section class="card">
+            <h2 class="section-title">このデモでできること</h2>
+            <div class="feature-list">
+              <div class="feature-item"><div class="feature-icon">📝</div><div><h4>利用者が記録する</h4><p>気分・体調・睡眠・食事・歩数・メモをスマホで入力できます。</p></div></div>
+              <div class="feature-item"><div class="feature-icon">📊</div><div><h4>職員が週単位で確認する</h4><p>対象週を選んで、日別記録・週サマリー・AI要約を確認できます。</p></div></div>
+              <div class="feature-item"><div class="feature-icon">💬</div><div><h4>コメントを保存する</h4><p>良かった点や本人へのコメントを保存し、次回確認メモも残せます。</p></div></div>
+            </div>
+          </section>
+          <section class="card">
+            <h2 class="section-title">デモ用ログイン想定</h2>
+            <ul class="simple-list">
+              <li>利用者：山田 花子（U001）</li>
+              <li>職員：田中 職員（S001）</li>
+            </ul>
+          </section>
+        </main>
+      </section>
+
+      <section id="screen-user" class="screen">
+        <header class="app-header">
+          <button class="icon-button" type="button" data-screen-target="screen-top" aria-label="戻る">←</button>
+          <h1 class="app-title">今日の記録</h1>
+          <span id="saveStatus" class="save-status">未保存</span>
+        </header>
+        <main class="app-main has-bottom-bar">
+          <form id="userForm" novalidate>
+            <section class="card">
+              <div class="card-row-between">
+                <div class="grow">
+                  <label class="form-label" for="recordDate">日付</label>
+                  <input id="recordDate" name="recordDate" class="form-input" type="date" />
+                  <p class="error-text" id="error-recordDate"></p>
+                </div>
+                <div class="status-chip" id="userSubmitStatus">未送信</div>
+              </div>
+              <div class="mt-12">
+                <p class="form-label mb-0">ログイン中の利用者</p>
+                <p class="helper-note" id="currentUserDisplay">山田 花子（U001）</p>
+                <p class="helper-note">この記録はログイン中の本人アカウントに自動で保存されます。</p>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">今日の気分と体調</h2>
+              <div class="form-group">
+                <label class="form-label">気分 <span class="required">必須</span></label>
+                <div class="chip-group single-select" data-name="mood">
+                  <button type="button" class="chip" data-value="とても良い">とても良い</button>
+                  <button type="button" class="chip" data-value="良い">良い</button>
+                  <button type="button" class="chip" data-value="ふつう">ふつう</button>
+                  <button type="button" class="chip" data-value="悪い">悪い</button>
+                  <button type="button" class="chip" data-value="とても悪い">とても悪い</button>
+                </div>
+                <input type="hidden" id="mood" name="mood" />
+                <p class="error-text" id="error-mood"></p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">体調 <span class="required">必須</span></label>
+                <div class="chip-group single-select" data-name="condition">
+                  <button type="button" class="chip" data-value="元気">元気</button>
+                  <button type="button" class="chip" data-value="少し疲れた">少し疲れた</button>
+                  <button type="button" class="chip" data-value="疲れている">疲れている</button>
+                  <button type="button" class="chip" data-value="つらい">つらい</button>
+                </div>
+                <input type="hidden" id="condition" name="condition" />
+                <p class="error-text" id="error-condition"></p>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">睡眠</h2>
+              <div class="grid-2">
+                <div class="form-group"><label class="form-label" for="bedtime">就寝時刻</label><input id="bedtime" name="bedtime" class="form-input" type="time" /></div>
+                <div class="form-group"><label class="form-label" for="wakeTime">起床時刻</label><input id="wakeTime" name="wakeTime" class="form-input" type="time" /></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="sleepHours">睡眠時間 <span class="required">必須</span></label>
+                <div class="input-with-unit"><input id="sleepHours" name="sleepHours" class="form-input" type="number" step="0.1" min="0" max="24" placeholder="7.5" /><span class="unit">時間</span></div>
+                <p class="error-text" id="error-sleepHours"></p>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">食事</h2>
+              <div class="form-group"><label class="form-label">朝食 <span class="required">必須</span></label><div class="segmented-control" data-name="breakfast"><button type="button" class="segment" data-value="食べた">食べた</button><button type="button" class="segment" data-value="食べていない">食べていない</button></div><input type="hidden" id="breakfast" name="breakfast" /><p class="error-text" id="error-breakfast"></p></div>
+              <div class="form-group"><label class="form-label">昼食 <span class="required">必須</span></label><div class="segmented-control" data-name="lunch"><button type="button" class="segment" data-value="食べた">食べた</button><button type="button" class="segment" data-value="食べていない">食べていない</button></div><input type="hidden" id="lunch" name="lunch" /><p class="error-text" id="error-lunch"></p></div>
+              <div class="form-group"><label class="form-label">夕食 <span class="required">必須</span></label><div class="segmented-control" data-name="dinner"><button type="button" class="segment" data-value="食べた">食べた</button><button type="button" class="segment" data-value="食べていない">食べていない</button></div><input type="hidden" id="dinner" name="dinner" /><p class="error-text" id="error-dinner"></p></div>
+            </section>
+
+            <section class="card">
+              <h2 class="section-title">活動</h2>
+              <div class="form-group"><label class="form-label" for="steps">歩数</label><div class="input-with-unit"><input id="steps" name="steps" class="form-input" type="number" min="0" max="99999" placeholder="6850" /><span class="unit">歩</span></div><p class="error-text" id="error-steps"></p></div>
+              <div class="form-group"><label class="form-label" for="freeNote">ひとことメモ</label><textarea id="freeNote" name="freeNote" class="form-textarea" maxlength="200" placeholder="今日はスピーチがあり緊張したが、午後は少し安心した"></textarea><div class="helper-row"><span class="helper-text">200文字以内</span><span class="counter" id="count-freeNote">0 / 200</span></div><p class="error-text" id="error-freeNote"></p></div>
+              <button type="button" class="btn btn-ghost btn-block" id="btnAiSummary" disabled>AIで文章を整理する</button>
+              <div class="ai-result" id="aiSummaryResult" hidden><h3 class="ai-result__title">AI整理結果</h3><p id="aiSummaryText"></p></div>
+            </section>
+          </form>
+        </main>
+        <footer class="bottom-action">
+          <button type="button" class="btn btn-secondary flex-1" id="btnSaveDraft" disabled>一時保存</button>
+          <button type="button" class="btn btn-primary flex-1" id="btnSubmitRecord" disabled>記録を送信</button>
+        </footer>
+      </section>
+
+      <section id="screen-staff" class="screen">
+        <header class="app-header">
+          <button class="icon-button" type="button" data-screen-target="screen-top" aria-label="戻る">←</button>
+          <h1 class="app-title">職員確認画面</h1>
+          <button class="icon-button" type="button" aria-label="通知">🔔</button>
+        </header>
+        <main class="app-main has-bottom-bar">
+          <form id="staffForm" novalidate>
+            <section class="card">
+              <p class="helper-note" id="currentStaffDisplay">ログイン中の職員：田中 職員（S001）</p>
+              <div class="form-group"><label class="form-label" for="staffUserSelect">利用者 <span class="required">必須</span></label><select id="staffUserSelect" name="staffUserSelect" class="form-input form-select"><option value="">選択してください</option><option value="U001">山田 花子（U001）</option><option value="U002">佐藤 健（U002）</option><option value="U003">鈴木 美咲（U003）</option></select><p class="error-text" id="error-staffUserSelect"></p></div>
+              <div class="form-group"><label class="form-label" for="staffWeekSelect">対象週 <span class="required">必須</span></label><select id="staffWeekSelect" name="staffWeekSelect" class="form-input form-select"><option value="">選択してください</option></select><p class="error-text" id="error-staffWeekSelect"></p></div>
+              <button type="button" class="btn btn-ghost btn-block" id="btnRefreshStaff" disabled>表示を更新</button>
+            </section>
+            <section class="card"><h2 class="section-title">週サマリー</h2><div class="summary-grid"><div class="summary-item"><span class="summary-label">平均睡眠</span><strong class="summary-value" id="avgSleepValue">-</strong></div><div class="summary-item"><span class="summary-label">平均歩数</span><strong class="summary-value" id="avgStepsValue">-</strong></div><div class="summary-item"><span class="summary-label">食事抜け</span><strong class="summary-value" id="missedMealsValue">-</strong></div><div class="summary-item"><span class="summary-label">記録件数</span><strong class="summary-value" id="recordCountValue">-</strong></div></div></section>
+            <section class="card"><div class="card-row-between"><h2 class="section-title mb-0">AI要約</h2><button type="button" class="btn btn-ghost btn-sm" id="btnAiRefresh" disabled>AIで要約更新</button></div><div class="ai-summary-box" id="staffAiSummary"><ul class="summary-bullets"><li>利用者と対象週を選んで表示を更新してください</li></ul></div></section>
+            <section class="card"><h2 class="section-title">日別記録</h2><div class="accordion-list" id="dailyRecordsContainer"><p class="helper-note">まだ記録がありません。</p></div></section>
+            <section class="card">
+              <div class="card-row-between"><h2 class="section-title mb-0">職員コメント</h2><div class="status-chip" id="staffCommentStatus">未保存</div></div>
+              <div class="form-group"><label class="form-label" for="staffGoodPoint">良かった点</label><textarea id="staffGoodPoint" name="staffGoodPoint" class="form-textarea form-textarea--sm" maxlength="120" placeholder="例：食事の記録が安定しており、生活リズムを意識できていました。"></textarea><div class="helper-row"><span class="helper-text">120文字以内</span><span class="counter" id="count-staffGoodPoint">0 / 120</span></div><p class="error-text" id="error-staffGoodPoint"></p></div>
+              <div class="form-group"><label class="form-label" for="staffConcernPoint">気になる点</label><textarea id="staffConcernPoint" name="staffConcernPoint" class="form-textarea form-textarea--sm" maxlength="120" placeholder="例：睡眠時間が短い日があり、疲れが残っている可能性があります。"></textarea><div class="helper-row"><span class="helper-text">120文字以内</span><span class="counter" id="count-staffConcernPoint">0 / 120</span></div><p class="error-text" id="error-staffConcernPoint"></p></div>
+              <div class="form-group"><label class="form-label" for="staffUserComment">本人へのコメント <span class="required">必須</span></label><textarea id="staffUserComment" name="staffUserComment" class="form-textarea" maxlength="200" placeholder="例：緊張する場面があっても、その後に落ち着けている点が良いですね。次週も無理のない範囲で続けてみましょう。"></textarea><div class="helper-row"><span class="helper-text">200文字以内</span><span class="counter" id="count-staffUserComment">0 / 200</span></div><p class="error-text" id="error-staffUserComment"></p></div>
+              <div class="form-group"><label class="form-label" for="staffNextMemo">次回確認メモ</label><textarea id="staffNextMemo" name="staffNextMemo" class="form-textarea form-textarea--sm" maxlength="200" placeholder="例：午前中の緊張が強い日のきっかけを次回確認する。"></textarea><div class="helper-row"><span class="helper-text">200文字以内</span><span class="counter" id="count-staffNextMemo">0 / 200</span></div><p class="error-text" id="error-staffNextMemo"></p></div>
+              <button type="button" class="btn btn-ghost btn-block" id="btnGenerateComment" disabled>コメント文案を作成</button>
+            </section>
+          </form>
+        </main>
+        <footer class="bottom-action">
+          <button type="button" class="btn btn-secondary flex-1" id="btnSaveStaffComment" disabled>コメントを保存</button>
+          <button type="button" class="btn btn-primary flex-1" id="btnSendStaffComment" disabled>本人へ送信</button>
+        </footer>
+      </section>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
